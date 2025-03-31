@@ -1,3 +1,4 @@
 node_modules/
 *.json
 .env/
+api_keys.env

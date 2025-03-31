@@ -3,6 +3,29 @@ from random import randint
 import random
 from datasets import load_dataset
 from datetime import date
+import os
+from dotenv import load_dotenv
+from mistralai import Mistral
+
+load_dotenv('api_keys.env')
+api_key = os.environ["MISTRAL_API_KEY"]
+model = "mistral-small-latest"
+
+client = Mistral(api_key=api_key)
+
+# ------------- Examples of AI use -------------
+chat_response = client.chat.complete(
+    model = model,
+    messages = [
+        {
+            "role": "user",
+            "content": "What is the best French cheese?",
+        },
+    ]
+)
+print(chat_response.choices[0].message.content)
+# -----------------------------------------------
+
 
 # Load dataset and chose a random question
 ds = load_dataset("HuggingFaceH4/MATH-500", split='test')
