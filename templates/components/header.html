@@ -1,0 +1,8 @@
+<header class="absolute w-full flex justify-between items-center p-3 md:px-72 bg-red-950 text-red-50">
+    <a class="text-xl" href="{{ url_for('index') }}">Mathdle</a>
+
+    <ul class="flex">
+        <li><a href="{{ url_for('questions') }}" class="hover:underline {% if request.path == url_for('questions') %}underline{% endif %}">QOTD</a></li>
+        <li><a href="{{ url_for('about') }}" class="hover:underline ml-5 {% if request.path == url_for('about') %}underline{% endif %}">About</a></li>
+    </ul>
+</header>

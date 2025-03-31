@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../static/output.css" rel="stylesheet">
+    <title>Mathdle | Question of the day</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css"
+        integrity="sha384-zh0CIslj+VczCZtlzBcjt5ppRcsAmDnRem7ESsYwWwg3m/OaJ2l4x7YBZl9Kxxib" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.js"
+        integrity="sha384-Rma6DA2IPUwhNxmrB/7S3Tno0YY7sFu9WSYMCuulLhIqYSGZ2gKCJWIqhBWqMQfh"
+        crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/auto-render.min.js"
+        integrity="sha384-hCXGrW6PitJEwbkoStFjeJxv+fSOOQKOPbJxSfM6G5sWZjAyWhXiTIIAmQqnlLlh"
+        crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {renderMathInElement(document.getElementById("qstn"), kat_opts)});
+
+        kat_opts = {delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "$", right: "$", display: false },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "\\[", right: "\\]", display: true },
+            { left: "\\begin{equation}", right: "\\end{equation}", display: true },
+            { left: "\\begin{align}", right: "\\end{align}", display: true },
+            { left: "\\begin{alignat}", right: "\\end{alignat}", display: true },
+            { left: "\\begin{gather}", right: "\\end{gather}", display: true },
+            { left: "\\begin{CD}", right: "\\end{CD}", display: true },
+            { left: "\\begin{displaymath}", right: "\\end{displaymath}", display: true },
+            { left: "\\begin{multline}", right: "\\end{multline}", display: true },
+            { left: "\\begin{split}", right: "\\end{split}", display: true },
+            { left: "\\begin{array}", right: "\\end{array}", display: true },
+            { left: "\\begin{matrix}", right: "\\end{matrix}", display: true },
+            { left: "\\begin{pmatrix}", right: "\\end{pmatrix}", display: true },
+            { left: "\\begin{bmatrix}", right: "\\end{bmatrix}", display: true },
+            { left: "\\begin{vmatrix}", right: "\\end{vmatrix}", display: true },
+            { left: "\\begin{Vmatrix}", right: "\\end{Vmatrix}", display: true }
+        ]}
+
+    </script>
+</head>
+
+<body class="bg-red-50 text-lg">
+
+    {% include 'components/header.html' %}
+
+    <main class="h-screen flex items-center justify-center md:mx-auto mx-3 md:max-w-2xl">
+        <section class="flex flex-col items-center gap-y-3">
+
+            <h1 class="text-3xl my-4 font-bold">Question of {{date}}</h1>
+
+            <p id="qstn">{{question}}</p>
+            <button id="skip-btn" class="px-4 py-2 ml-32 rounded-full bg-red-300 hover:bg-red-400 cursor-pointer">Skip
+                question</button>
+
+            <div class="flex justify-center w-full text-red-900">
+                <textarea class="focus:outline-none rounded-none md:min-w-md min-h-28 rounded-s-xl bg-red-100 p-4" placeholder="Type your response..."></textarea>
+                <button class="inline-flex cursor-pointer items-center px-4 bg-red-100 rounded-r-xl">
+                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18" />
+                    </svg>
+                </button>
+            </div>
+
+        </section>
+
+
+    </main>
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const skipBtn = document.getElementById("skip-btn");
+            skipBtn.addEventListener("click", function () {
+                const question_url = {{ url_for("skip_question")|tojson }};
+                console.log("Question URL:", question_url); // Log the URL to verify it
+                const question_div = document.getElementById("qstn");
+                fetch(question_url)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok ' + response.statusText);
+                        }
+                        return response.text();
+                    })
+                    .then(text => {
+                        question_div.innerHTML = text;
+                        renderMathInElement(document.getElementById("qstn"), kat_opts)
+                    })
+                    .catch(error => console.error('Error fetching question:', error));
+            });
+        });
+
+    </script>
+
+</body>
+
+</html>
