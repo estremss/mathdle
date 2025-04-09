@@ -39,6 +39,7 @@
         ]}
 
     </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body class="bg-red-50 text-lg">
@@ -51,16 +52,17 @@
             <h1 class="text-3xl my-4 font-bold">Question of {{date}}</h1>
 
             <p id="qstn">{{question}}</p>
-            <button id="skip-btn" class="px-4 py-2 ml-32 rounded-full bg-red-300 hover:bg-red-400 cursor-pointer">Skip
-                question</button>
+            <button id="skip-btn" class="py-2 ml-96 text-sm hover:underline text-red-300 cursor-pointer">Next question</button>
 
-            <div class="flex justify-center w-full text-red-900">
-                <textarea class="focus:outline-none rounded-none md:min-w-md min-h-28 rounded-s-xl bg-red-100 p-4" placeholder="Type your response..."></textarea>
-                <button class="inline-flex cursor-pointer items-center px-4 bg-red-100 rounded-r-xl">
-                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20" stroke-width="2" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18" />
-                    </svg>
-                </button>
+            <div id="messages">
+                <form id="messageArea" class="flex justify-center w-full text-red-900" id="response-form" method="post">
+                    <textarea id="text" name="user-response" class="focus:outline-none rounded-none md:min-w-md min-h-28 rounded-s-xl bg-red-100 p-4" placeholder="Type your response..."></textarea>
+                    <button type="submit" class="inline-flex cursor-pointer items-center px-4 bg-red-100 rounded-r-xl">
+                        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20" stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18" />
+                        </svg>
+                    </button>
+                </form>
             </div>
 
         </section>
@@ -70,26 +72,68 @@
 
     <script>
 
-        document.addEventListener("DOMContentLoaded", function() {
-            const skipBtn = document.getElementById("skip-btn");
-            skipBtn.addEventListener("click", function () {
-                const question_url = {{ url_for("skip_question")|tojson }};
-                console.log("Question URL:", question_url); // Log the URL to verify it
-                const question_div = document.getElementById("qstn");
-                fetch(question_url)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok ' + response.statusText);
-                        }
-                        return response.text();
-                    })
-                    .then(text => {
-                        question_div.innerHTML = text;
-                        renderMathInElement(document.getElementById("qstn"), kat_opts)
-                    })
-                    .catch(error => console.error('Error fetching question:', error));
-            });
+        
+
+        const textArea = document.getElementById('text');
+        const submitButton = document.querySelector('button[type="submit"]');
+
+        textArea.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                submitButton.click();
+            }
         });
+
+        const skipBtn = document.getElementById("skip-btn");
+
+        skipBtn.addEventListener("click", function () {
+            const question_url = {{ url_for("skip_question")|tojson }};
+            const question_div = document.getElementById("qstn");
+            fetch(question_url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.text();
+                })
+                .then(text => {
+                    question_div.innerHTML = text;
+                    renderMathInElement(document.getElementById("qstn"), kat_opts)
+                })
+                .catch(error => console.error('Error fetching question:', error));
+        });
+
+
+    //     $(document).ready(function () {
+    //     $("#messageArea").on("submit", function (event) {
+    //       var rawText = $("#text").val();
+
+    //       var userHtml = rawText
+
+    //       $("#text").val("");
+    //       $("#messageFormeight").append(userHtml);
+
+    //       scrollToBottom();
+
+    //       $.ajax({
+    //         data: {
+    //           msg: rawText,
+    //         },
+    //         type: "POST",
+    //         url: "/get",
+    //       }).done(function (data) {
+    //         var botHtml =
+    //           '<div class="d-flex justify-content-start mb-4"><div class="img_cont_msg"><img src="https://i.ibb.co/fSNP7Rz/icons8-chatgpt-512.png" class="rounded-circle user_img_msg"></div><div class="msg_cotainer">' +
+    //           data +
+    //           '<span class="msg_time">' +
+    //           str_time +
+    //           "</span></div></div>";
+    //         $("#messageFormeight").append($.parseHTML(botHtml));
+    //         scrollToBottom();
+    //       });
+    //       event.preventDefault();
+    //     });
+    //   });
 
     </script>
 
