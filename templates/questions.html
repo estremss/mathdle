@@ -54,9 +54,9 @@
             <p id="qstn">{{question}}</p>
             <button id="skip-btn" class="py-2 ml-96 text-sm hover:underline text-red-300 cursor-pointer">Next question</button>
 
-            <div id="messages">
+            <div id="messageFormeight">
                 <form id="messageArea" class="flex justify-center w-full text-red-900" id="response-form" method="post">
-                    <textarea id="text" name="user-response" class="focus:outline-none rounded-none md:min-w-md min-h-28 rounded-s-xl bg-red-100 p-4" placeholder="Type your response..."></textarea>
+                    <textarea id="text" name="text" class="focus:outline-none rounded-none md:min-w-md min-h-28 rounded-s-xl bg-red-100 p-4" placeholder="Type your response..."></textarea>
                     <button type="submit" class="inline-flex cursor-pointer items-center px-4 bg-red-100 rounded-r-xl">
                         <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20" stroke-width="2" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18" />
@@ -71,8 +71,6 @@
     </main>
 
     <script>
-
-        
 
         const textArea = document.getElementById('text');
         const submitButton = document.querySelector('button[type="submit"]');
@@ -103,37 +101,42 @@
                 .catch(error => console.error('Error fetching question:', error));
         });
 
+        function scrollToBottom() {
+            var messageBody = document.getElementById("messageFormeight");
+            messageBody.scrollTop = messageBody.scrollHeight;
+        }
 
-    //     $(document).ready(function () {
-    //     $("#messageArea").on("submit", function (event) {
-    //       var rawText = $("#text").val();
 
-    //       var userHtml = rawText
+        $(document).ready(function () {
+        $("#messageArea").on("submit", function (event) {
+          var rawText = $("#text").val();
 
-    //       $("#text").val("");
-    //       $("#messageFormeight").append(userHtml);
+          var userHtml = "<div class='justify-end'>" + rawText + "</div>";
 
-    //       scrollToBottom();
+          $("#text").val("");
+          $("#messageFormeight").append(userHtml);
 
-    //       $.ajax({
-    //         data: {
-    //           msg: rawText,
-    //         },
-    //         type: "POST",
-    //         url: "/get",
-    //       }).done(function (data) {
-    //         var botHtml =
-    //           '<div class="d-flex justify-content-start mb-4"><div class="img_cont_msg"><img src="https://i.ibb.co/fSNP7Rz/icons8-chatgpt-512.png" class="rounded-circle user_img_msg"></div><div class="msg_cotainer">' +
-    //           data +
-    //           '<span class="msg_time">' +
-    //           str_time +
-    //           "</span></div></div>";
-    //         $("#messageFormeight").append($.parseHTML(botHtml));
-    //         scrollToBottom();
-    //       });
-    //       event.preventDefault();
-    //     });
-    //   });
+          scrollToBottom();
+
+          $.ajax({
+            data: {
+              msg: rawText,
+            },
+            type: "POST",
+            url: "/get",
+          }).done(function (data) {
+            var botHtml =
+              '<div>' + data.slice(0, -1) + "</div>";
+
+            $("#messageFormeight").append($.parseHTML(botHtml));
+            renderMathInElement(document.getElementById("messageFormeight"), kat_opts)
+
+
+            scrollToBottom();
+          });
+          event.preventDefault();
+        });
+      });
 
     </script>
 

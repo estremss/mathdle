@@ -17,8 +17,6 @@ client = Mistral(api_key=api_key)
 ds = load_dataset("HuggingFaceH4/MATH-500", split='test')
 q = random.choice(ds)
 
-print(q['solution'])
-
 app = Flask(__name__)
 
 # --------- Functions ---------
@@ -29,12 +27,19 @@ def index():
 
 @app.route("/questions", methods=['POST', 'GET'])
 def questions():
-    if request.method == 'POST':
-        user_response = request.form["user-response"]
-        print(user_response)
-        get_chat_response(user_response)
+    # if request.method == 'POST':
+    #     user_response = request.form["text"]
+    #     print(user_response)
+    #     get_chat_response(user_response)
     
     return render_template('questions.html', date=date.today(), question=q['problem'])
+
+@app.route("/get", methods=["GET", "POST"])
+def chat():
+    msg = request.form.get('msg')
+    input = msg
+    print(input)
+    return get_chat_response(input)
 
 @app.route("/about")
 def about():
@@ -49,7 +54,6 @@ def skip_question():
 def get_chat_response(txt):
     global q
     prompt = "1. " + q["problem"] + "\n\n" + "2. " + q["solution"] + "\n\n" + "3. " + q['answer'] + '\n\n' + "4. " + txt
-    print(prompt)
     chat_response = client.agents.complete(
         agent_id = os.environ['MODEL'],
         messages = [
@@ -59,7 +63,7 @@ def get_chat_response(txt):
             },
         ]
     )
-    print(chat_response.choices[0].message.content)
+    return chat_response.choices[0].message.content
 
 if __name__=="__main__":
     app.run()
