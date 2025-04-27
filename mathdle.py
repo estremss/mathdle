@@ -38,7 +38,6 @@ def questions():
 def chat():
     msg = request.form.get('msg')
     input = msg
-    print(input)
     return get_chat_response(input)
 
 @app.route("/about")
