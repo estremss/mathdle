@@ -17,7 +17,7 @@ Mathdle allows you to **train your math skills** everyday and improve on **high 
 
 ## Run the project
 
--# To run the project, you need to have the api keys in the `.env` file.
+*To run the project, you need to have the api keys in the `.env` file.*
 
 ### 1. Clone the project
 You can use git clone, or just download the zip.
