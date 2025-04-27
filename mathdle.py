@@ -3,10 +3,11 @@ import random
 from datasets import load_dataset
 from datetime import date
 import os
-from dotenv import load_dotenv
 from mistralai import Mistral
+from dotenv import load_dotenv
 
-load_dotenv('api_keys.env')
+load_dotenv()
+
 
 api_key = os.environ["MISTRAL_API_KEY"]
 
@@ -26,12 +27,7 @@ def index():
     return render_template('index.html')
 
 @app.route("/questions", methods=['POST', 'GET'])
-def questions():
-    # if request.method == 'POST':
-    #     user_response = request.form["text"]
-    #     print(user_response)
-    #     get_chat_response(user_response)
-    
+def questions():    
     return render_template('questions.html', date=date.today(), question=q['problem'])
 
 @app.route("/get", methods=["GET", "POST"])
