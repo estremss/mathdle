@@ -17,6 +17,8 @@ client = Mistral(api_key=api_key)
 # Load dataset and chose a random question
 ds = load_dataset("HuggingFaceH4/MATH-500", split='test')
 q = random.choice(ds)
+while q['problem'].find('asy') != -1:
+    q = random.choice(ds)
 
 app = Flask(__name__)
 
@@ -44,6 +46,8 @@ def about():
 def skip_question():
     global q
     q = random.choice(ds)
+    while q['problem'].find('asy') != -1:
+        q = random.choice(ds)
     return q['problem']
 
 def get_chat_response(txt):
@@ -54,7 +58,7 @@ def get_chat_response(txt):
         messages = [
             {
                 "role": "user",
-                "content": prompt, # we might put it into a formatted string
+                "content": prompt,
             },
         ]
     )

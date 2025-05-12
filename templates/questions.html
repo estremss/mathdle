@@ -15,28 +15,30 @@
         integrity="sha384-hCXGrW6PitJEwbkoStFjeJxv+fSOOQKOPbJxSfM6G5sWZjAyWhXiTIIAmQqnlLlh"
         crossorigin="anonymous"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {renderMathInElement(document.getElementById("qstn"), kat_opts)});
+        document.addEventListener("DOMContentLoaded", function () { renderMathInElement(document.getElementById("qstn"), kat_opts) });
 
-        kat_opts = {delimiters: [
-            { left: "$$", right: "$$", display: true },
-            { left: "$", right: "$", display: false },
-            { left: "\\(", right: "\\)", display: false },
-            { left: "\\[", right: "\\]", display: true },
-            { left: "\\begin{equation}", right: "\\end{equation}", display: true },
-            { left: "\\begin{align}", right: "\\end{align}", display: true },
-            { left: "\\begin{alignat}", right: "\\end{alignat}", display: true },
-            { left: "\\begin{gather}", right: "\\end{gather}", display: true },
-            { left: "\\begin{CD}", right: "\\end{CD}", display: true },
-            { left: "\\begin{displaymath}", right: "\\end{displaymath}", display: true },
-            { left: "\\begin{multline}", right: "\\end{multline}", display: true },
-            { left: "\\begin{split}", right: "\\end{split}", display: true },
-            { left: "\\begin{array}", right: "\\end{array}", display: true },
-            { left: "\\begin{matrix}", right: "\\end{matrix}", display: true },
-            { left: "\\begin{pmatrix}", right: "\\end{pmatrix}", display: true },
-            { left: "\\begin{bmatrix}", right: "\\end{bmatrix}", display: true },
-            { left: "\\begin{vmatrix}", right: "\\end{vmatrix}", display: true },
-            { left: "\\begin{Vmatrix}", right: "\\end{Vmatrix}", display: true }
-        ]}
+        kat_opts = {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true },
+                { left: "\\begin{equation}", right: "\\end{equation}", display: true },
+                { left: "\\begin{align}", right: "\\end{align}", display: true },
+                { left: "\\begin{alignat}", right: "\\end{alignat}", display: true },
+                { left: "\\begin{gather}", right: "\\end{gather}", display: true },
+                { left: "\\begin{CD}", right: "\\end{CD}", display: true },
+                { left: "\\begin{displaymath}", right: "\\end{displaymath}", display: true },
+                { left: "\\begin{multline}", right: "\\end{multline}", display: true },
+                { left: "\\begin{split}", right: "\\end{split}", display: true },
+                { left: "\\begin{array}", right: "\\end{array}", display: true },
+                { left: "\\begin{matrix}", right: "\\end{matrix}", display: true },
+                { left: "\\begin{pmatrix}", right: "\\end{pmatrix}", display: true },
+                { left: "\\begin{bmatrix}", right: "\\end{bmatrix}", display: true },
+                { left: "\\begin{vmatrix}", right: "\\end{vmatrix}", display: true },
+                { left: "\\begin{Vmatrix}", right: "\\end{Vmatrix}", display: true }
+            ]
+        }
 
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -51,24 +53,45 @@
 
             <h1 class="text-3xl mt-36 mb-4 font-bold">Question of {{date}}</h1>
 
-            <button id="skip-btn" class="self-end mr-8 py-2 text-sm hover:underline text-red-300 cursor-pointer">Next question</button>
+            <button id="skip-btn" class="self-end mr-8 py-2 text-sm hover:underline text-red-300 cursor-pointer">Display
+                issue in question</button>
 
             <p id="qstn">{{question}}</p>
+
+            <div id="overlay" class="hidden fixed z-20 bg-black/20 backdrop-blur-xs inset-0 flex justify-center items-center">
+                <div class="max-w-72 shadow-2xl shadow-red-200 p-8 m-10 bg-red-100 rounded-2xl flex flex-col gap-y-0.5">
+                    <p class="text-2xl font-semibold">Congratulations! &#127882</p>
+                    <p>You have answered to the three questions of today.</p>
+                    <p>You are still able to continue if you're a math lover. &#128151</p>
+                    <div class="flex">
+                        <button id="continue" class="p-3 shadow cursor-pointer hover:bg-green-300 mx-auto mt-2 rounded-full bg-green-200 w-fit">Continue</button>
+                        <a href="{{ url_for('index')}}" id="end" class="p-3 shadow cursor-pointer hover:bg-red-500 mx-auto mt-2 rounded-full bg-red-400 w-fit">End up</a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="next-qstn"></div>
 
             <hr class="h-px my-8 bg-red-200 border-0 w-3/4">
 
             <div class="fixed rounded-xl shadow-lg shadow-red-900/30 bottom-5 z-10">
-                <form id="messageArea" class="flex ring-2 ring-red-900/55 rounded-xl justify-center w-full text-red-900" id="response-form" method="post">
-                    <textarea id="text" name="text" class="focus:outline-none rounded-none md:min-w-md min-h-28 rounded-s-xl bg-red-100 p-4" placeholder="Type your response..."></textarea>
+                <form id="messageArea" class="flex ring-2 ring-red-900/55 rounded-xl justify-center w-full text-red-900"
+                    id="response-form" method="post">
+                    <textarea id="text" name="text"
+                        class="focus:outline-none rounded-none md:min-w-md min-h-28 resize-none rounded-s-xl bg-red-100 p-4"
+                        placeholder="Type your reasonning and your response..."></textarea>
                     <button type="submit" class="inline-flex cursor-pointer items-center px-4 bg-red-100 rounded-r-xl">
-                        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20" stroke-width="2" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18" />
+                        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                            viewBox="0 0 20 20" stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18" />
                         </svg>
                     </button>
                 </form>
             </div>
 
             <div class="w-full text-red-900 mt-6 mb-44 flex flex-col gap-y-3" id="chat"></div>
+
 
         </section>
 
@@ -79,76 +102,113 @@
 
         const textArea = document.getElementById('text');
         const submitButton = document.querySelector('button[type="submit"]');
+        const skipBtn = document.getElementById("skip-btn");
+        const nextQstn = document.getElementById("next-qstn");
+        pts = 0;
 
-        textArea.addEventListener('keydown', function(event) {
+        textArea.addEventListener('keydown', function (event) {
             if (event.key === 'Enter' && !event.shiftKey) {
                 event.preventDefault();
                 submitButton.click();
             }
         });
 
-        const skipBtn = document.getElementById("skip-btn");
 
-        skipBtn.addEventListener("click", function () {
+        function skipQuestion() {
             const messageBody = document.getElementById("chat");
-            const question_url = {{ url_for("skip_question")|tojson }};
-            const question_div = document.getElementById("qstn");
-            fetch(question_url)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok ' + response.statusText);
-                    }
-                    return response.text();
-                })
-                .then(text => {
-                    question_div.innerHTML = text;
-                    messageBody.innerHTML = '';
-                    renderMathInElement(document.getElementById("qstn"), kat_opts)
-                })
-                .catch(error => console.error('Error fetching question:', error));
-        });
+            const question_url = {{ url_for("skip_question") | tojson
+        }};
+        const question_div = document.getElementById("qstn");
+        $('#next-qstn').empty();
 
-        function scrollToBottom() {
-            var messageBody = document.getElementById("chat");
-            document.body.scrollTop = messageBody.scrollHeight;
+        fetch(question_url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.text();
+            })
+            .then(text => {
+                question_div.innerHTML = text;
+                messageBody.innerHTML = '';
+                renderMathInElement(document.getElementById("qstn"), kat_opts);
+            })
+            .catch(error => console.error('Error fetching question:', error));
+        }
+
+        function points() {
+            console.log('points');
+            pts += 1;
+            if (pts == 3) {
+                document.getElementById('overlay').classList.remove('hidden');
+                const cont = document.getElementById('continue');
+
+                cont.addEventListener("click", function() {
+                    document.getElementById('overlay').classList.add('hidden');
+                    skipQuestion();
+                });
+            }
         }
 
 
+        skipBtn.addEventListener("click", skipQuestion);
+        nextQstn.addEventListener("click", skipQuestion);
+        nextQstn.addEventListener("click", points);
+
+
         $(document).ready(function () {
-        $("#messageArea").on("submit", function (event) {
-          var rawText = $("#text").val();
+            $("#messageArea").on("submit", function (event) {
+                var rawText = $("#text").val();
 
-          var userHtml = "<div class='w-auto bg-red-100 p-4 rounded-xl self-end'>" + rawText + "</div>";
+                var userHtml = "<div class='w-auto bg-red-100 p-4 rounded-xl self-end'>" + rawText + "</div>";
 
-          $("#text").val("");
-          $("#chat").append(userHtml);
+                $("#text").val("");
+                $("#chat").append(userHtml);
 
-          window.scroll({
-            top: 300,
-            behavior: "smooth",
+                window.scroll({
+                    top: 300,
+                    behavior: "smooth",
+                });
+
+                $.ajax({
+                    data: {
+                        msg: rawText,
+                    },
+                    type: "POST",
+                    url: "/get",
+                }).done(function (data) {
+                    var botHtml = '<div class="text-red-950 max-w-3/4">' + data.slice(0, -1) + "</div>";
+
+                    $("#chat").append($.parseHTML(botHtml));
+                    renderMathInElement(document.getElementById("chat"), kat_opts)
+
+                    window.scroll({
+                        top: 300,
+                        behavior: "smooth",
+                    });
+
+                    if (data.charAt(data.length - 1) == 1) {
+                        displayNextQuestion();
+                    }
+                    else {
+                        window.scroll({
+                            top: 300,
+                            behavior: "smooth",
+                        });
+                    }
+                });
+                event.preventDefault();
             });
-
-          $.ajax({
-            data: {
-              msg: rawText,
-            },
-            type: "POST",
-            url: "/get",
-          }).done(function (data) {
-            var botHtml =
-              '<div class="text-red-950 max-w-3/4">' + data.slice(0, -1) + "</div>";
-
-            $("#chat").append($.parseHTML(botHtml));
-            renderMathInElement(document.getElementById("chat"), kat_opts)
-
-            window.scroll({
-            top: 300,
-            behavior: "smooth",
-            });
-          });
-          event.preventDefault();
         });
-      });
+
+        function displayNextQuestion() {
+            var nextHTML = "<div class='flex flex-col shadow-green-600 shadow-2xl gap-y-1 p-6 mt-4 rounded-4xl bg-green-200' id='success'><span class='text-xl text-black font-semibold'>Congratulations!&#127882</span><button class='p-4 cursor-pointer hover:bg-green-500 text-green-950 font-semibold bg-green-400 border-2 shadow-lg border-green-950 rounded-4xl'>Next Question</button></div>";
+            $('#next-qstn').append(nextHTML);
+            window.scroll({
+                top: -1000,
+                behavior: "smooth",
+            });
+        }
 
     </script>
 

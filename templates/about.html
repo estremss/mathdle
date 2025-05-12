@@ -8,46 +8,54 @@
     <title>Mathdle | About</title>
 </head>
 
-<body class="bg-red-50 text-lg">
+<body class="bg-red-50">
 
     {% include 'components/header.html' %}
 
-    <main class="h-screen flex items-center justify-center md:mx-auto mx-3 md:max-w-2xl">
-        <section class="flex flex-col items-center gap-y-3">
+    <main class="md:mx-auto mx-3 md:max-w-2xl text-red-950">
+        <section>
 
-            <!-- <div id="date">About connard</div> -->
-             <div class="box">
-            <div class = "about-section">
-                <h1>About the project</h1>
-                <p>Mathdle is an interactive math testing platform that supports students during assessments by integrating a built-in AI chat assistant.
-                    When a student faces a challenging question and doesn't know the answer, instead of searching through books or external resources, they can simply ask the embedded AI chat for a hint or explanation. This smart assistant provides helpful guidance without giving away direct answers, encouraging learning while offering real-time support inside the test environment.</p>
+            <h1 class="text-3xl md:text-4xl font-semibold mb-4 pt-20">About</h1>
+
+            <div class="flex flex-col gap-y-3">
+                <div>
+                    <h2 class="text-2xl font-semibold">Purpose of the project</h2>
+                    <p>Mathdle is a daily math quiz designed for math enthusiasts to practice and sharpen their skills
+                        in a fun and engaging way. It offers a daily challenge that encourages users to form a habit of
+                        solving math problems regularly.
+                    </p>
+                    <p>
+                        One of the standout features of Mathdle is its integration of AI technology. The AI provides
+                        valuable assistance by offering hints when users are stuck and comparing their responses to the
+                        correct solutions. This interactive feedback helps users learn from their mistakes and improve
+                        their problem-solving abilities.
+                    </p>
+                    <p>
+                        Join Mathdle today and make math practice a daily habit!
+                    </p>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-semibold">Our goals</h2>
+                    <ul class="list-disc ml-5">
+                        <li>Daily Engagement</li>
+                        <li>Interactive Learning</li>
+                        <li>Skill Improvement</li>
+                        <li>Educational Impact</li>
+                        <li>Continuous Improvement</li>
+                    </ul>
+
+                </div>
+                <div>
+                    <h2 class="text-2xl font-semibold">Implemented technologies</h2>
+                    <ul class="list-disc ml-5">
+                        <li>HTML, CSS, JS</li>
+                        <li>Tailwind CSS</li>
+                        <li>Python (Flask)</li>
+                        <li>Mistral API</li>
+                        <li>KaTeX (to render LaTeX)</li>
+                    </ul>
+                </div>
             </div>
-            <div class="goal-section">
-            <h2>Our goals</h2>
-            <ul>
-                <li>Enhance Learning Efficiency</li>
-                <li>Reduce Test Anxiety</li>
-                <li>Improve Student Confidence</li>
-                <li>Encourage Consistent Practice</li>
-                <li>Support for Students and Teachers</li>
-        </ul>
-        </div>
-        <div class="technologies">
-            <h2>Implemented technologies</h2>
-            <ul>
-                <li>HTML&CSS</li>
-                <li>Python</li>
-                <li>Flask</li>
-                <li>Mistral API</li>
-                <li>Virtual environment (venv)</li>
-            </ul>
-        </div>
-        <div class = "question">
-            <h3>Do you have any questions? Don't hesitate to contact us!</h3>
-            <button class="btn btn-black">Contact Us!</button>
-        </div>
-    </div>
-        
 
         </section>
 
