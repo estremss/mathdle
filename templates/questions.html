@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="../static/output.css" rel="stylesheet">
+    <link href="../static/style/output.css" rel="stylesheet">
+    <link rel="icon" href="../static/images/icon.ico" type="image/x-icon">
     <title>Mathdle | Question of the day</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css"
         integrity="sha384-zh0CIslj+VczCZtlzBcjt5ppRcsAmDnRem7ESsYwWwg3m/OaJ2l4x7YBZl9Kxxib" crossorigin="anonymous">
@@ -115,6 +116,7 @@
 
 
         function skipQuestion() {
+            $('#text').prop('disabled', false);
             const messageBody = document.getElementById("chat");
             const question_url = {{ url_for("skip_question") | tojson
         }};
@@ -153,7 +155,7 @@
 
         skipBtn.addEventListener("click", skipQuestion);
         nextQstn.addEventListener("click", skipQuestion);
-        nextQstn.addEventListener("click", points);
+        // nextQstn.addEventListener("click", points);
 
 
         $(document).ready(function () {
@@ -189,6 +191,8 @@
 
                     if (data.charAt(data.length - 1) == 1) {
                         displayNextQuestion();
+                        points(); // on appelle points dès que le bon résultat est trouvé
+                        $('#text').prop('disabled', true);
                     }
                     else {
                         window.scroll({

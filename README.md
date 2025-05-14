@@ -43,3 +43,7 @@ python mathdle.py
 ```
 
 :warning: To work on the frontend, you need to install Tailwind separately! :warning:
+
+## Perspectives of evolution
+
+While at the moment the prompts and the contexts given to the AI are really simple, if we would like to make bigger prompts with longer contexts, we should use RAG.
