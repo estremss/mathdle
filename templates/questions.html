@@ -45,11 +45,11 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
-<body class="bg-red-50 md:text-lg">
+<body class="bg-red-50">
 
     {% include 'components/header.html' %}
 
-    <main class="h-screen text-red-950 md:mx-auto mx-3 md:max-w-2xl">
+    <main class="h-screen text-red-950 md:text-lg md:mx-auto mx-3 md:max-w-2xl">
         <section class="flex flex-col items-center gap-y-3">
 
             <h1 class="text-3xl mt-36 mb-4 font-bold">Question of {{date}}</h1>
@@ -75,11 +75,11 @@
 
             <hr class="h-px my-8 bg-red-200 border-0 w-3/4">
 
-            <div class="fixed rounded-xl shadow-lg shadow-red-900/30 bottom-5 z-10">
-                <form id="messageArea" class="flex ring-2 ring-red-900/55 rounded-xl justify-center w-full text-red-900"
+            <div class="fixed w-11/12 md:w-auto rounded-xl shadow-lg shadow-red-900/30 bottom-5 z-10">
+                <form id="messageArea" class="flex ring-2 ring-red-900/55 rounded-xl justify-center text-red-900"
                     id="response-form" method="post">
                     <textarea id="text" name="text"
-                        class="focus:outline-none rounded-none md:min-w-md min-h-28 resize-none rounded-s-xl bg-red-100 p-4"
+                        class="focus:outline-none w-full rounded-none md:min-w-md min-h-28 resize-none rounded-s-xl bg-red-100 p-4"
                         placeholder="Type your reasonning and your response..."></textarea>
                     <button type="submit" class="inline-flex cursor-pointer items-center px-4 bg-red-100 rounded-r-xl">
                         <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
