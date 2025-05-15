@@ -52,7 +52,7 @@ def skip_question():
 
 def get_chat_response(txt):
     global q
-    prompt = "1. " + q["problem"] + "\n\n" + "2. " + q["solution"] + "\n\n" + "3. " + q['answer'] + '\n\n' + "4. " + txt
+    prompt = "1. " + q["problem"] + "\n\n" + "2. " + q["solution"] + "\n\n" + "3. " + q['answer'] + '\n\n' + "4. USER RESPONSE: " + txt
     chat_response = client.agents.complete(
         agent_id = os.environ['MODEL'],
         messages = [

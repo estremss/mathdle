@@ -78,7 +78,7 @@
             <div class="fixed w-11/12 md:w-auto rounded-xl shadow-lg shadow-red-900/30 bottom-5 z-10">
                 <form id="messageArea" class="flex ring-2 ring-red-900/55 rounded-xl justify-center text-red-900"
                     id="response-form" method="post">
-                    <textarea id="text" name="text"
+                    <textarea id="text" name="text" required
                         class="focus:outline-none w-full rounded-none md:min-w-md min-h-28 resize-none rounded-s-xl bg-red-100 p-4"
                         placeholder="Type your reasonning and your response..."></textarea>
                     <button type="submit" class="inline-flex cursor-pointer items-center px-4 bg-red-100 rounded-r-xl">
@@ -109,6 +109,10 @@
 
         textArea.addEventListener('keydown', function (event) {
             if (event.key === 'Enter' && !event.shiftKey) {
+                var value = this.value.trim();
+                if (value === '') {
+                    this.value = '';
+                }
                 event.preventDefault();
                 submitButton.click();
             }
