@@ -59,14 +59,18 @@
 
             <p id="qstn">{{question}}</p>
 
-            <div id="overlay" class="hidden fixed z-20 bg-black/20 backdrop-blur-xs inset-0 flex justify-center items-center">
+            <div id="overlay"
+                class="hidden fixed z-20 bg-black/20 backdrop-blur-xs inset-0 flex justify-center items-center">
                 <div class="max-w-72 shadow-2xl shadow-red-200 p-8 m-10 bg-red-100 rounded-2xl flex flex-col gap-y-0.5">
                     <p class="text-2xl font-semibold">Congratulations! &#127882</p>
                     <p>You have answered to the three questions of today.</p>
                     <p>You are still able to continue if you're a math lover. &#128151</p>
                     <div class="flex">
-                        <button id="continue" class="p-3 shadow cursor-pointer hover:bg-green-300 mx-auto mt-2 rounded-full bg-green-200 w-fit">Continue</button>
-                        <a href="{{ url_for('index')}}" id="end" class="p-3 shadow cursor-pointer hover:bg-red-500 mx-auto mt-2 rounded-full bg-red-400 w-fit">End up</a>
+                        <button id="continue"
+                            class="p-3 shadow cursor-pointer hover:bg-green-300 mx-auto mt-2 rounded-full bg-green-200 w-fit">Continue</button>
+                        <a href="{{ url_for('index')}}" id="end"
+                            class="p-3 shadow cursor-pointer hover:bg-red-500 mx-auto mt-2 rounded-full bg-red-400 w-fit">End
+                            up</a>
                     </div>
                 </div>
             </div>
@@ -75,8 +79,17 @@
 
             <hr class="h-px my-8 bg-red-200 border-0 w-3/4">
 
-            <div class="fixed w-11/12 md:w-auto rounded-xl shadow-lg shadow-red-900/30 bottom-5 z-10">
-                <form id="messageArea" class="flex ring-2 ring-red-900/55 rounded-xl justify-center text-red-900"
+            <div class="fixed w-11/12 md:w-auto rounded-xl bottom-5 z-10">
+                    <button id="hint" class="flex shadow-sm shadow-red-900/30 cursor-pointer hover:bg-red-950 mb-1.5 bg-red-900 w-fit items-center rounded-full  px-3 text-red-100 py-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1"
+                            stroke="currentColor" class="size-5">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" />
+                        </svg>
+                        <span>Hint</span>
+                    </button>
+                <form id="messageArea"
+                    class="flex ring-2 shadow-lg shadow-red-900/30 ring-red-900/55 rounded-xl justify-center text-red-900"
                     id="response-form" method="post">
                     <textarea id="text" name="text" required
                         class="focus:outline-none w-full rounded-none md:min-w-md min-h-28 resize-none rounded-s-xl bg-red-100 p-4"
@@ -118,6 +131,26 @@
             }
         });
 
+        document.getElementById('hint').addEventListener('click', function() {
+            $.ajax({
+                data: {
+                    msg: 'GIVE A HINT TO THE USER',
+                },
+                type: "POST",
+                url: "/get",
+            }).done(function (data) {
+                var botHtml = '<div class="text-red-950 max-w-3/4">' + data.slice(0, -2) + "</div>";
+
+                $("#chat").append($.parseHTML(botHtml));
+                renderMathInElement(document.getElementById("chat"), kat_opts)
+
+                window.scroll({
+                    top: 300,
+                    behavior: "smooth",
+                });
+            });
+        });
+
 
         function skipQuestion() {
             $('#text').prop('disabled', false);
@@ -149,7 +182,7 @@
                 document.getElementById('overlay').classList.remove('hidden');
                 const cont = document.getElementById('continue');
 
-                cont.addEventListener("click", function() {
+                cont.addEventListener("click", function () {
                     document.getElementById('overlay').classList.add('hidden');
                     skipQuestion();
                 });
@@ -159,8 +192,6 @@
 
         skipBtn.addEventListener("click", skipQuestion);
         nextQstn.addEventListener("click", skipQuestion);
-        // nextQstn.addEventListener("click", points);
-
 
         $(document).ready(function () {
             $("#messageArea").on("submit", function (event) {
@@ -183,15 +214,10 @@
                     type: "POST",
                     url: "/get",
                 }).done(function (data) {
-                    var botHtml = '<div class="text-red-950 max-w-3/4">' + data.slice(0, -1) + "</div>";
+                    var botHtml = '<div class="text-red-950 max-w-3/4">' + data.slice(0, -2) + "</div>";
 
                     $("#chat").append($.parseHTML(botHtml));
                     renderMathInElement(document.getElementById("chat"), kat_opts)
-
-                    window.scroll({
-                        top: 300,
-                        behavior: "smooth",
-                    });
 
                     if (data.charAt(data.length - 1) == 1) {
                         displayNextQuestion();
